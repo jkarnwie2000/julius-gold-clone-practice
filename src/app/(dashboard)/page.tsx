@@ -1,10 +1,5 @@
-export default function DashboardPage() {
-    return (
-        <div className="flex flex-1 items-center justify-center">
-            <h1 className="text-2xl font-semibold">
-                Dashboard
-            </h1>
+import { DashboardView } from "@/features/dashboard/views/dashboard-view";
 
-        </div>
-    );
-}
+export default function DashboardPage() {
+    return <DashboardView />; 
+};

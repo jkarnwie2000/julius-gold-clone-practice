@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { LucideIcon } from "lucide-react";
 import {
     Sidebar,
     SidebarContent,
@@ -33,7 +32,7 @@ import {
     Settings,
     Headphones,
 } from "lucide-react";
-import { Link } from "next/link";
+import Link from "next/link";
 
 interface MenuItem {
     title: string;
@@ -71,12 +70,13 @@ function NavSection({ label, items, pathname}: NavSectionProps) {
                             }
                             onClick={item.onClick}
                             tooltip={item.title}
+                            className="h-9 px-3 py-2 text-[13px] tracking-tight font-medium border border-transparent data-[active=true]:border-border data-[active=true]:shadow-[0px_1px_0px_rgba(44, 54, 53, 0.03), inset_0px_0px_0px_2px_white]"
                             >   
                             {item.url ? (
-                              <link href={item.url}>
+                              <Link href={item.url}>
                               <item.icon />
                               <span>{item.title}</span>
-                              </link> 
+                              </Link> 
                               ):(
                               <>
                               <item.icon />
@@ -142,7 +142,7 @@ export function DashboardSidebar() {
                 <div className="flex items-center gap-2 pl-1 group-data-[collapsible=icon]
                 :justify-center group-data-[collapsible=icon]:pl-0">
                     <Image
-                    src="/logo.png"
+                    src="/logo.svg"
                     alt="Julius Gold Clone"
                     width={24}
                     height={24}
@@ -154,9 +154,53 @@ export function DashboardSidebar() {
                     </span>
                     <SidebarTrigger className="ml-auto lg:hidden" />
                 </div>
-
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <OrganizationSwitcher 
+                        hidePersonal
+                        fallback={
+                            <Skeleton 
+                            className="h-8.5 w-full group-data-[collapsible=icon]
+                            :size-8 rounded-md bg-white"
+                            />
+                        }                         
+                        appearance={{
+                            elements: {
+                                rootBox: 
+                                "w-full! group-data-[collapsible=icon]:w-auto!group-data-[collapsible=icon]:flex! group-data-[collapsible=icon]:justify-center!",
+                                organizationSwitcherTriggerz:
+                                "w-full justify-between! bg-white! border! border-border! rounded-md! pl-1! pr-2! py-1! gap-3! group-data-[collapsible=icon]:w-auto! group-data-[collapsible]:p-1 shadow-[0px_1px_1.5px_0px_rgba(44, 54, 53, 0.03)]!",
+                                organizationPreview: "gap-2!",
+                                organizationPreviewAvatarBox: "size-6! rounded-sm!",
+                                organizationPreviewTextContainier: 
+                                "text-xs! tracking-tight! font-medium! text-foreground! group-data-[collapsible=icon]:hidden",
+                                organizationPreviewMainIdentifier: "text-[13px]!",
+                                organizationSwitcherTriggerIcon: 
+                                "size-4! text-sidebar-foreground! group-data-[collapsible=icon]:hidden!",                        
+                            },
+                        }}
+                        />
+                    </SidebarMenuItem>
+                </SidebarMenu>
             </SidebarHeader>
-
+            <div className="border-b border-dashed border-border"/>
+            <SidebarContent>
+                <NavSection items={mainMenuItems} pathname={pathname} />
+                <NavSection
+                label="Others"
+                items={othersMenuItems}
+                pathname={pathname}
+                />
+            </SidebarContent>
+            <div className="border-b border-dashed border-border" />
+            <SidebarFooter className="gap-3 py-3">
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <UserButton />                        
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>            
+            <SidebarRail />
         </Sidebar>
     )
 }
